@@ -1,0 +1,133 @@
+\documentclass[a4paper,12pt]{article}
+% Encoding and font packages to avoid special character corruption
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{geometry}
+\usepackage{enumitem}
+\usepackage{titlesec}
+\usepackage{hyperref}
+\usepackage{courier}
+\renewcommand{\ttdefault}{cmvtt}
+
+\geometry{margin=1in}
+\setlist{nosep}
+	\titleformat{\section}{\Large\bfseries}{}{0em}{}
+	\titleformat{\subsection}{\bfseries}{}{0em}{}
+	\title{Linux Command Summary}
+\author{Jeongmin Lee}
+\date{}
+
+\begin{document}
+\maketitle
+
+\section{File Commands}
+\begin{enumerate}
+  \item \texttt{ls} \quad Directory listing
+  \item \texttt{ls -al} \quad Formatted listing with hidden files
+  \item \texttt{ls -lt} \quad Sort formatted listing by time modification
+  \item \texttt{cd dir} \quad Change directory to \texttt{dir}
+  \item \texttt{cd} \quad Change to home directory
+  \item \texttt{pwd} \quad Show current working directory
+  \item \texttt{mkdir dir} \quad Create directory \texttt{dir}
+  \item \texttt{cat > file} \quad Place standard input into file
+  \item \texttt{more file} \quad Output contents of file
+  \item \texttt{head file} \quad Output the first 10 lines
+  \item \texttt{tail file} \quad Output the last 10 lines
+  \item \texttt{tail -f file} \quad Output file as it grows
+  \item \texttt{touch file} \quad Create or update file
+  \item \texttt{rm file} \quad Delete file
+  \item \texttt{rm -r dir} \quad Delete directory
+  \item \texttt{rm -f file} \quad Force remove file
+  \item \texttt{rm -rf dir} \quad Force remove directory
+  \item \texttt{cp file1 file2} \quad Copy file1 to file2
+  \item \texttt{cp -r dir1 dir2} \quad Copy directory recursively
+\end{enumerate}
+
+\section{Process Management}
+\begin{enumerate}
+  \item \texttt{ps} \quad Display current processes
+  \item \texttt{top} \quad Display all running processes
+  \item \texttt{kill pid} \quad Kill process with given PID
+  \item \texttt{killall proc} \quad Kill all processes named \texttt{proc}
+  \item \texttt{pkill pattern} \quad Kill processes matching pattern
+  \item \texttt{bg} \quad List/resume background jobs
+  \item \texttt{fg} \quad Bring most recent job to foreground
+  \item \texttt{fg n} \quad Bring job \texttt{n} to foreground
+\end{enumerate}
+
+\newpage
+\section{System Information}
+\begin{enumerate}
+  \item \texttt{date} \quad Show current date/time
+  \item \texttt{cal} \quad Show calendar
+  \item \texttt{uptime} \quad Show system uptime
+  \item \texttt{w} \quad Show who is logged in
+  \item \texttt{whoami} \quad Show current user
+  \item \texttt{finger user} \quad User information
+  \item \texttt{uname -a} \quad Kernel information
+  \item \texttt{cat /proc/cpuinfo} \quad CPU info
+  \item \texttt{cat /proc/meminfo} \quad Memory info
+  \item \texttt{man command} \quad Manual page
+  \item \texttt{df} \quad Disk usage
+  \item \texttt{du} \quad Directory space usage
+  \item \texttt{free} \quad Memory and swap usage
+  \item \texttt{whereis app} \quad Show possible locations of app
+  \item \texttt{which app} \quad Show default application path
+\end{enumerate}
+
+\section{Searching}
+\begin{enumerate}
+  \item \texttt{grep pattern file} \quad Search for pattern in file
+  \item \texttt{grep -r pattern dir} \quad Recursive search
+  \item \verb|command | grep pattern| \quad Search pattern in command output
+  \item \texttt{locate file} \quad Find all instances of file
+  \item \texttt{find . -name filename} \quad Search files in current directory
+  \item \texttt{pgrep pattern} \quad Search for processes by pattern
+\end{enumerate}
+
+\section{File Permission}
+\texttt{chmod octal file} \quad Change file permission. \\
+Octal values:
+\begin{itemize}
+  \item 4 = read (r)
+  \item 2 = write (w)
+  \item 1 = execute (x)
+\end{itemize}
+
+\section{Compression}
+\begin{enumerate}
+  \item \texttt{tar cf file.tar file} \quad Create tar
+  \item \texttt{tar xf file.tar} \quad Extract tar
+  \item \texttt{tar czf file.tar.gz files} \quad Create tar with gzip
+  \item \texttt{tar xzf file.tar.gz} \quad Extract tar with gzip
+  \item \texttt{tar cjf file.tar.bz2} \quad Create tar with bzip2
+  \item \texttt{tar xjf file.tar.bz2} \quad Extract tar with bzip2
+  \item \texttt{gzip file} \quad Compress file
+  \item \texttt{gzip -d file.gz} \quad Decompress file
+\end{enumerate}
+
+\newpage
+\section{Networking}
+\begin{enumerate}
+  \item \texttt{ping host} \quad Ping host
+  \item \texttt{whois domain} \quad Whois info
+  \item \texttt{dig domain} \quad DNS info
+  \item \texttt{dig -x host} \quad Reverse DNS lookup
+  \item \texttt{wget file} \quad Download file
+  \item \texttt{wget -c file} \quad Resume download
+\end{enumerate}
+
+\section{Shortcuts}
+\begin{enumerate}
+  \item \texttt{Ctrl+c} \quad Halt command
+  \item \texttt{Ctrl+z} \quad Stop command (resume with fg/bg)
+  \item \texttt{Ctrl+d} \quad Logout current session
+  \item \texttt{Ctrl+w} \quad Erase one word
+  \item \texttt{Ctrl+u} \quad Erase whole line
+  \item \texttt{Ctrl+r} \quad Search recent command
+  \item \texttt{!!} \quad Repeat last command
+  \item \texttt{exit} \quad Logout current session
+\end{enumerate}
+
+\end{document}
