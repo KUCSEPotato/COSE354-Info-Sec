@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025/Homebrew) (preloaded format=pdflatex 2025.3.15)  28 SEP 2025 17:58
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025/Homebrew) (preloaded format=pdflatex 2025.3.15)  2 OCT 2025 12:13
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -386,7 +386,16 @@ LaTeX Warning: Label `lst:modified-request' multiply defined.
 LaTeX Warning: Label `lst:modified-request' multiply defined.
 
 
+LaTeX Warning: Label `lst:modified-request' multiply defined.
+
+
+LaTeX Warning: Label `lst:modified-request' multiply defined.
+
+
 LaTeX Warning: Label `lst:blind-original-request' multiply defined.
+
+
+LaTeX Warning: Label `lst:modified-request' multiply defined.
 
 
 LaTeX Warning: Label `lst:modified-request' multiply defined.
@@ -500,7 +509,7 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <5> on input line 65.
 LaTeX Font Info:    Font shape `OT1/cmbr/m/it' in size <10> not available
-(Font)              Font shape `OT1/cmbr/m/sl' tried instead on input line 67.
+(Font)              Font shape `OT1/cmbr/m/sl' tried instead on input line 66.
 LaTeX Font Info:    Font shape `OT1/cmbr/b/n' in size <14.4> not available
 (Font)              Font shape `OT1/cmbr/bx/n' tried instead on input line 70.
 LaTeX Font Info:    Trying to load font information for LUC+nanumgt on input line 70.
@@ -545,49 +554,49 @@ File: ts1cmtl.fd 2005/04/13 v8.1 (WaS)
 [3]
 
 Package caption Warning: The option `hypcap=true' will be ignored for this
-(caption)                particular \caption on input line 237.
+(caption)                particular \caption on input line 238.
 See the caption package documentation for explanation.
 
 
-Underfull \hbox (badness 1122) in paragraph at lines 244--245
+Underfull \hbox (badness 1122) in paragraph at lines 245--246
 []\OT1/cmtl/m/n/10 echo a; echo b \OT1/cmbr/m/n/10 |
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 245--246
+Underfull \hbox (badness 10000) in paragraph at lines 246--247
 []\OT1/cmtl/m/n/10 make && echo "
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 246--247
+Underfull \hbox (badness 10000) in paragraph at lines 247--248
 []\OT1/cmtl/m/n/10 grep foo file ||
  []
 
-LaTeX Font Info:    Trying to load font information for OMS+cmtl on input line 247.
-LaTeX Font Info:    No file OMScmtl.fd. on input line 247.
+LaTeX Font Info:    Trying to load font information for OMS+cmtl on input line 248.
+LaTeX Font Info:    No file OMScmtl.fd. on input line 248.
 
 LaTeX Font Warning: Font shape `OMS/cmtl/m/n' undefined
 (Font)              using `OMS/cmsy/m/n' instead
-(Font)              for symbol `textbar' on input line 247.
+(Font)              for symbol `textbar' on input line 248.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 247--248
+Underfull \hbox (badness 10000) in paragraph at lines 248--249
 []\OT1/cmtl/m/n/10 ps aux \OMS/cmtl/m/n/10 j \OT1/cmtl/m/n/10 grep ssh
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 247--248
+Underfull \hbox (badness 10000) in paragraph at lines 248--249
 \OT1/cmbr/m/n/10 | \LUC/nanumgt/b/n/10/cd �\LUC/nanumgt/b/n/10/b8 %\LUC/nanumgt/b/n/10/c7 t \LUC/nanumgt/b/n/10/d3 ^^L\LUC/nanumgt/b/n/10/c7 t\LUC/nanumgt/b/n/10/d5 ^^D
  []
 
 
-Overfull \hbox (13.85677pt too wide) in paragraph at lines 240--251
+Overfull \hbox (13.85677pt too wide) in paragraph at lines 241--252
  [] 
  []
 
 
 Package caption Warning: The option `hypcap=true' will be ignored for this
-(caption)                particular \caption on input line 255.
+(caption)                particular \caption on input line 256.
 See the caption package documentation for explanation.
 
 
@@ -596,7 +605,7 @@ See the caption package documentation for explanation.
 <../figure/figure1.png, id=124, 1684.2925pt x 1792.6975pt>
 File: ../figure/figure1.png Graphic file (type png)
 <use ../figure/figure1.png>
-Package pdftex.def Info: ../figure/figure1.png  used on input line 283.
+Package pdftex.def Info: ../figure/figure1.png  used on input line 284.
 (pdftex.def)             Requested size: 338.5863pt x 360.36589pt.
 
 
@@ -604,46 +613,50 @@ Package pdftex.def Info: ../figure/figure1.png  used on input line 283.
 <../figure/figure2.png, id=153, 945.5325pt x 190.7125pt>
 File: ../figure/figure2.png Graphic file (type png)
 <use ../figure/figure2.png>
-Package pdftex.def Info: ../figure/figure2.png  used on input line 312.
+Package pdftex.def Info: ../figure/figure2.png  used on input line 313.
 (pdftex.def)             Requested size: 338.5863pt x 68.29268pt.
 
 
 [6 </Users/potato/Desktop/KU/25-2/정보보호/assignment1_CMINE/report/Kor/../figure/figure2.png>]
 LaTeX Font Info:    Font shape `LUC/nanumgt/m/it' in size <10> not available
-(Font)              Font shape `LUC/nanumgt/m/sl' tried instead on input line 323.
-<../figure/figure3.png, id=162, 1252.68pt x 1365.1pt>
+(Font)              Font shape `LUC/nanumgt/m/sl' tried instead on input line 372.
+<../figure/figure3.png, id=199, 1252.68pt x 1365.1pt>
 File: ../figure/figure3.png Graphic file (type png)
 <use ../figure/figure3.png>
-Package pdftex.def Info: ../figure/figure3.png  used on input line 354.
+Package pdftex.def Info: ../figure/figure3.png  used on input line 403.
 (pdftex.def)             Requested size: 338.5863pt x 368.97769pt.
-<../figure/figure4.png, id=163, 1646.15pt x 395.4775pt>
+<../figure/figure4.png, id=200, 1646.15pt x 395.4775pt>
 File: ../figure/figure4.png Graphic file (type png)
 <use ../figure/figure4.png>
-Package pdftex.def Info: ../figure/figure4.png  used on input line 380.
+Package pdftex.def Info: ../figure/figure4.png  used on input line 429.
 (pdftex.def)             Requested size: 338.5863pt x 81.33893pt.
 
 
 [7]
 
 [8 </Users/potato/Desktop/KU/25-2/정보보호/assignment1_CMINE/report/Kor/../figure/figure3.png> </Users/potato/Desktop/KU/25-2/정보보호/assignment1_CMINE/report/Kor/../figure/figure4.png>]
-<../figure/figure5.png, id=209, 1017.8025pt x 146.5475pt>
+
+[9]
+<../figure/figure5.png, id=296, 1017.8025pt x 146.5475pt>
 File: ../figure/figure5.png Graphic file (type png)
 <use ../figure/figure5.png>
-Package pdftex.def Info: ../figure/figure5.png  used on input line 427.
+Package pdftex.def Info: ../figure/figure5.png  used on input line 528.
 (pdftex.def)             Requested size: 338.5863pt x 48.7499pt.
 
 
-[9 </Users/potato/Desktop/KU/25-2/정보보호/assignment1_CMINE/report/Kor/../figure/figure5.png>]
+[10 </Users/potato/Desktop/KU/25-2/정보보호/assignment1_CMINE/report/Kor/../figure/figure5.png>]
 
-[10]
-<../figure/figure6.png, id=267, 1676.2625pt x 491.8375pt>
+[11]
+<../figure/figure6.png, id=353, 1676.2625pt x 491.8375pt>
 File: ../figure/figure6.png Graphic file (type png)
 <use ../figure/figure6.png>
-Package pdftex.def Info: ../figure/figure6.png  used on input line 493.
+Package pdftex.def Info: ../figure/figure6.png  used on input line 594.
 (pdftex.def)             Requested size: 338.5863pt x 99.34137pt.
 
 
-[11 </Users/potato/Desktop/KU/25-2/정보보호/assignment1_CMINE/report/Kor/../figure/figure6.png>] (/Users/potato/Desktop/KU/25-2/정보보호/assignment1_CMINE/report/Kor/[kor]command_injection.aux)
+[12 </Users/potato/Desktop/KU/25-2/정보보호/assignment1_CMINE/report/Kor/../figure/figure6.png>]
+
+[13] (/Users/potato/Desktop/KU/25-2/정보보호/assignment1_CMINE/report/Kor/[kor]command_injection.aux)
  ***********
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-01-18>
@@ -659,18 +672,18 @@ Package rerunfilecheck Info: File `[kor]command_injection.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 13944 strings out of 473190
- 230069 string characters out of 5704335
- 1156531 words of memory out of 5000000
- 36812 multiletter control sequences out of 15000+600000
+ 14118 strings out of 473190
+ 232546 string characters out of 5704335
+ 1339531 words of memory out of 5000000
+ 36851 multiletter control sequences out of 15000+600000
  587578 words of font info for 133 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  79i,11n,93p,458b,2109s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </opt/homebrew/Cellar/texlive/20250308_1/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></opt/homebrew/Cellar/texlive/20250308_1/share/texmf-dist/fonts/type1/public/hfbright/hfbr10.pfb></opt/homebrew/Cellar/texlive/20250308_1/share/texmf-dist/fonts/type1/public/hfbright/hfbr17.pfb></opt/homebrew/Cellar/texlive/20250308_1/share/texmf-dist/fonts/type1/public/hfbright/hfbrbx10.pfb></opt/homebrew/Cellar/texlive/20250308_1/share/texmf-dist/fonts/type1/public/hfbright/hfbrsl10.pfb></opt/homebrew/Cellar/texlive/20250308_1/share/texmf-dist/fonts/type1/public/hfbright/hfsltl10.pfb></opt/homebrew/Cellar/texlive/20250308_1/share/texmf-dist/fonts/type1/public/hfbright/hftl10.pfb></opt/homebrew/Cellar/texlive/20250308_1/share/texmf-dist/fonts/type1/public/nanumtype1/nanumgtmac.pfb></opt/homebrew/Cellar/texlive/20250308_1/share/texmf-dist/fonts/type1/public/nanumtype1/nanumgtmad.pfb></opt/homebrew/Cellar/texlive/20250308_1/share/texmf-dist/fonts/type1/public/nanumtype1/nanumgtmae.pfb></opt/homebrew/Cellar/texlive/20250308_1/share/texmf-dist/fonts/type1/public/nanumtype1/nanumgtmb0.pfb></opt/homebrew/Cellar/texlive/20250308_1/share/texmf-dist/fonts/type1/public/nanumtype1/nanumgtmb1.pfb></opt/homebrew/Cellar/texlive/20250308_1/share/texmf-dist/fonts/type1/public/nanumtype1/nanumgtmb2.pfb></opt/homebrew/Cellar/texlive/20250308_1/share/texmf-dist/fonts/type1/public/nanumtype1/nanumgtmb3.pfb></opt/homebrew/Cellar/texlive/20250308_1/share/texmf-dist/fonts/type1/public/nanumtype1/nanumgtmb4.pfb></opt/homebrew/Cellar/texlive/20250308_1/share/texmf-dist/fonts/type1/public/nanumtype1/nanumgtmb4.pfb></opt/homebrew/Cellar/texlive/20250308_1/share/texmf-dist/fonts/type1/public/nanumtype1/nanumgtmb5.pfb></opt/homebrew/Cellar/texlive/20250308_1/share/texmf-dist/fonts/type1/public/nanumtype1/nanumgtmb6.pfb></opt/homebrew/Cellar/texlive/20250308_1/share/texmf-dist/fonts/type1/public/nanumtype1/nanumgtmb7.pfb></opt/homebrew/Cellar/texlive/20250308_1/share/texmf-dist/fonts/type1/public/nanumtype1/nanumgtmb7.pfb></opt/homebrew/Cellar/texlive/20250308_1/share/texmf-dist/fonts/type1/public/nanumtype1/nanumgtmb8.pfb></opt/homebrew/Cellar/texlive/20250308_1/share/texmf-dist/fonts/type1/public/nanumtype1/nanumgtmb8.pfb></opt/homebrew/Cellar/texlive/20250308_1/share/texmf-dist/fonts/type1/public/nanumtype1/nanumgtmb9.pfb></opt/homebrew/Cellar/texlive/20250308_1/share/texmf-dist/fonts/type1/public/nanumtype1/nanumgtmba.pfb></opt/homebrew/Cellar/texlive/20250308_1/share/texmf-dist/fonts/type1/public/nanumtype1/nanumgtmba.pfb></opt/homebrew/Cellar/texlive/20250308_1/share/texmf-dist/fonts/type1/public/nanumtype1/nanumgtmbb.pfb></opt/homebrew/Cellar/texlive/20250308_1/share/texmf-dist/fonts/type1/public/nanumtype1/nanumgtmbc.pfb></opt/homebrew/Cellar/texlive/20250308_1/share/texmf-dist/fonts/type1/public/nanumtype1/nanumgtmbd.pfb></opt/homebrew/Cellar/texlive/20250308_1/share/texmf-dist/fonts/type1/public/nanumtype1/nanumgtmbe.pfb></opt/homebrew/Cellar/texlive/20250308_1/share/texmf-dist/fonts/type1/public/nanumtype1/nanumgtmbe.pfb></opt/homebrew/Cellar/texlive/20250308_1/share/texmf-dist/fonts/type1/public/nanumtype1/nanumgtmbf.pfb></opt/homebrew/Cellar/texlive/20250308_1/share/texmf-dist/fonts/type1/public/nanumtype1/nanumgtmc0.pfb></opt/homebrew/Cellar/texlive/20250308_1/share/texmf-dist/fonts/type1/public/nanumtype1/nanumgtmc0.pfb></opt/homebrew/Cellar/texlive/20250308_1/share/texmf-dist/fonts/type1/public/nanumtype1/nanumgtmc1.pfb></opt/homebrew/Cellar/texlive/20250308_1/share/texmf-dist/fonts/type1/public/nanumtype1/nanumgtmc2.pfb></opt/homebrew/Cellar/texlive/20250308_1/share/texmf-dist/fonts/type1/public/nanumtype1/nanumgtmc3.pfb></opt/homebrew/Cellar/texlive/20250308_1/share/texmf-dist/fonts/type1/public/nanumtype1/nanumgtmc4.pfb></opt/homebrew/Cellar/texlive/20250308_1/share/texmf-dist/fonts/type1/public/nanumtype1/nanumgtmc5.pfb></opt/homebrew/Cellar/texlive/20250308_1/share/texmf-dist/fonts/type1/public/nanumtype1/nanumgtmc5.pfb></opt/homebrew/Cellar/texlive/20250308_1/share/texmf-dist/fonts/type1/public/nanumtype1/nanumgtmc6.pfb></opt/homebrew/Cellar/texlive/20250308_1/share/texmf-dist/fonts/type1/public/nanumtype1/nanumgtmc7.pfb></opt/homebrew/Cellar/texlive/20250308_1/share/texmf-dist/fonts/type1/public/nanumtype1/nanumgtmc7.pfb></opt/homebrew/Cellar/texlive/20250308_1/share/texmf-dist/fonts/type1/public/nanumtype1/nanumgtmc8.pfb></opt/homebrew/Cellar/texlive/20250308_1/share/texmf-dist/fonts/type1/public/nanumtype1/nanumgtmc9.pfb></opt/homebrew/Cellar/texlive/20250308_1/share/texmf-dist/fonts/type1/public/nanumtype1/nanumgtmca.pfb></opt/homebrew/Cellar/texlive/20250308_1/share/texmf-dist/fonts/type1/public/nanumtype1/nanumgtmcc.pfb></opt/homebrew/Cellar/texlive/20250308_1/share/texmf-dist/fonts/type1/public/nanumtype1/nanumgtmcd.pfb></opt/homebrew/Cellar/texlive/20250308_1/share/texmf-dist/fonts/type1/public/nanumtype1/nanumgtmce.pfb></opt/homebrew/Cellar/texlive/20250308_1/share/texmf-dist/fonts/type1/public/nanumtype1/nanumgtmcf.pfb></opt/homebrew/Cellar/texlive/20250308_1/share/texmf-dist/fonts/type1/public/nanumtype1/nanumgtmd0.pfb></opt/homebrew/Cellar/texlive/20250308_1/share/texmf-dist/fonts/type1/public/nanumtype1/nanumgtmd1.pfb></opt/homebrew/Cellar/texlive/20250308_1/share/texmf-dist/fonts/type1/public/nanumtype1/nanumgtmd2.pfb></opt/homebrew/Cellar/texlive/20250308_1/share/texmf-dist/fonts/type1/public/nanumtype1/nanumgtmd3.pfb></opt/homebrew/Cellar/texlive/20250308_1/share/texmf-dist/fonts/type1/public/nanumtype1/nanumgtmd4.pfb></opt/homebrew/Cellar/texlive/20250308_1/share/texmf-dist/fonts/type1/public/nanumtype1/nanumgtmd5.pfb></opt/homebrew/Cellar/texlive/20250308_1/share/texmf-dist/fonts/type1/public/nanumtype1/nanumgtmd6.pfb></opt/homebrew/Cellar/texlive/20250308_1/share/texmf-dist/fonts/type1/public/nanumtype1/nanumgtmd7.pfb></opt/homebrew/Cellar/texlive/20250308_1/share/texmf-dist/fonts/type1/public/cm-super/sfbmr10.pfb></opt/homebrew/Cellar/texlive/20250308_1/share/texmf-dist/fonts/type1/public/cm-super/sfbtl10.pfb>
-Output written on /Users/potato/Desktop/KU/25-2/정보보호/assignment1_CMINE/report/Kor/[kor]command_injection.pdf (11 pages, 1772666 bytes).
+Output written on /Users/potato/Desktop/KU/25-2/정보보호/assignment1_CMINE/report/Kor/[kor]command_injection.pdf (13 pages, 1793308 bytes).
 PDF statistics:
- 552 PDF objects out of 1000 (max. 8388607)
- 404 compressed objects within 5 object streams
- 162 named destinations out of 1000 (max. 500000)
+ 724 PDF objects out of 1000 (max. 8388607)
+ 573 compressed objects within 6 object streams
+ 297 named destinations out of 1000 (max. 500000)
  31 words of extra memory for PDF output out of 10000 (max. 10000000)
 

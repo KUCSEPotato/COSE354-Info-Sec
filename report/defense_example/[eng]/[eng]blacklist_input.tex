@@ -1,0 +1,251 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{geometry}
+ \geometry{
+ a4paper,
+ total={170mm,257mm},
+ left=20mm,
+ top=20mm,
+ }
+ \usepackage{graphicx}
+ \usepackage{titling}
+ \usepackage{kotex}
+ \usepackage{hyperref}
+ \usepackage{caption} 
+ \usepackage{graphicx} 
+
+\title{Example of Blacklist Input Validation}
+\author{Jeongmin Lee}
+\date{September 2025}
+ 
+ \usepackage{fancyhdr}
+\setlength{\headheight}{12.5pt}
+\usepackage{listings}
+\lstset{
+  basicstyle=\ttfamily\footnotesize,
+  frame=single,
+  columns=fullflexible,
+  keepspaces=true,
+  breaklines=true,
+  captionpos=b,
+  tabsize=2,
+  language=Python
+}
+\fancypagestyle{plain}{%  the preset of fancyhdr 
+    \fancyhf{} % clear all header and footer fields
+  % If the image is missing, comment out the next line or provide a fallback
+  % \fancyfoot[R]{\includegraphics[width=2cm]{KULEUVEN_GENT_RGB_LOGO.png}}
+  \fancyfoot[R]{KUCSEPotato}
+  \fancyfoot[L]{September 2025}
+  \fancyhead[L]{Information Security Assignment1}
+  \fancyhead[R]{Jeongmin Lee}
+}
+\makeatletter
+\def\@maketitle{%
+  \newpage
+  \null
+  \vskip 1em%
+  \begin{center}%
+  \let \footnote \thanks
+    {\LARGE \@title \par}%
+    \vskip 1em%
+    %{\large \@date}%
+  \end{center}%
+  \par
+  \vskip 1em}
+\makeatother
+
+\usepackage{lipsum}  
+\usepackage{cmbright}
+
+\begin{document}
+
+\maketitle
+
+\noindent\begin{tabular}{@{}ll}
+  Student & \textit{Jeongmin Lee}\\
+  Contributor & \textit{Jonghyeok Lee, Chanhang Lee, Nurnazihah Intan, Pedro Vidal Villalba}\\
+\end{tabular}
+
+\section{Overview}
+This document demonstrates the implementation of a simple server and illustrates command-injection vulnerabilities that can arise within such a server, as well as how to mitigate them using a blacklisting approach. The programming language and framework used for the exercise are Go and the Fiber web framework.
+
+\subsection{What is a command-injection vulnerability?}
+A command-injection vulnerability permits an attacker to execute system commands on the host by leveraging improperly handled user input. This class of vulnerability typically occurs when user-supplied data is incorporated directly into system command invocations. For example, if a server constructs and executes system commands based on user input without adequate sanitization, an attacker can supply malicious input that results in arbitrary command execution. Consequences include unauthorized system access, data exfiltration, and denial-of-service (DoS) conditions.
+
+\subsection{What is the blacklisting technique?}
+Blacklisting is an input-validation strategy that blocks inputs matching a predefined set of disallowed patterns (a “blacklist”). In practice, the application rejects inputs that contain specific strings or patterns known to be associated with malicious activity. Blacklisting is simple and fast to implement, but it cannot guarantee complete protection because it is difficult to anticipate and enumerate every possible malicious input. For this reason, blacklisting is often used in conjunction with whitelisting and other defensive measures to provide stronger security.
+
+\section{Server Implementation and Defense Technique Application}
+This section briefly describes the server implementation and compares the results of applying the defense technique with those of not applying it.
+The complete code will be included in the appendix.
+The key parts are the \texttt{vulnHandler} and \texttt{safeHandler} functions.
+
+\subsection{Vulnerable server implementation}
+
+The example below summarizes the core behavior of a simple practice server. The server uses the Fiber framework and exposes two primary endpoints:
+
+\begin{itemize}
+\item \texttt{/vuln?ip=} : a vulnerable handler (\texttt{vulnHandler}). It constructs a raw command string from user input and executes it via a shell. This approach is susceptible to command injection using shell metacharacters (e.g., \texttt{|} or \texttt{;}) that allow an attacker to append or chain additional commands.
+\item \texttt{/safe?ip=} : a defended handler (\texttt{safeHandler}). It performs checks against a blacklist of patterns (e.g., \texttt{whoami} or the pipe character \texttt{|}) to block suspicious input, and then invokes external programs using an argument-list (i.e., without going through a shell). In the experiment the IP validation pipeline is commented out; you may enable it when trying the exercise if desired.
+\end{itemize}
+
+The fundamental difference is the invocation method. \texttt{vulnHandler} concatenates user input and passes it to \texttt{/bin/sh -c}, so any extra commands embedded in the input are interpreted and executed by the shell. By contrast, \texttt{safeHandler} calls the program with an argument vector (for example, \texttt{exec.Command(“ping”, “-c”, “1”, ip)}), thereby avoiding shell interpretation.
+
+\subsection{Local Environment Setup and Testing}
+\begin{enumerate}
+	\item Run the server: from the server directory,
+	\begin{lstlisting}
+	cd server
+	go run test_server.go
+	\end{lstlisting}
+	The server will bind to \texttt{:8080}.
+	\item Check for vulnerabilities: Inject the \texttt{whoami} command with a command separator into the vulnerable endpoint.
+	\begin{lstlisting}[caption={Test example for the vulnerable endpoint}]
+	curl -i 'http://localhost:8080/vuln?ip=127.0.0.1%7Cwhoami'
+	\end{lstlisting}
+	This request is internally translated to "\texttt{ping -c 1 127.0.0.1|whoami}" and sent to the shell, allowing us to observe the output of \texttt{whoami} (the executing user name) in the server response.
+
+	\item Check the defense: Send the same payload to the defended handler.
+	\begin{lstlisting}[caption={Test example for the defended handler}]
+	curl -i 'http://localhost:8080/safe?ip=127.0.0.1%7Cwhoami'
+	\end{lstlisting}
+	The defended handler blocks the payload through input format (regex) and blacklist checks, returning an HTTP 400 response with the message "input blocked by blacklist".
+\end{enumerate}
+
+Summary of the exercise results:
+\begin{itemize}
+    \item \texttt{/vuln} : malicious input is passed through a shell and the appended command (e.g., \texttt{whoami}) is executed.
+    \item \texttt{/safe} : the blacklist detects command-related tokens and the request is rejected (blocked immediately).
+    \begin{lstlisting}[caption={Experimental results}, label={lst:result}]
+    potato@potatoui-MacBookAir server % curl -i -s 'http://localhost:8080/vuln?ip=127.0.0.1%7Cwhoami'
+    HTTP/1.1 200 OK
+    Date: Tue, 30 Sep 2025 07:12:28 GMT
+    Content-Type: text/plain; charset=utf-8
+    Content-Length: 7
+
+    potato
+
+    <----------------------------->
+    potato@potatoui-MacBookAir server % curl -i -s 'http://localhost:8080/safe?ip=127.0.0.1%7Cwhoami'
+    HTTP/1.1 400 Bad Request
+    Date: Tue, 30 Sep 2025 07:12:55 GMT
+    Content-Type: text/plain; charset=utf-8
+    Content-Length: 53
+
+    input blocked by blacklist: suspicious token detected%  
+    \end{lstlisting}
+\end{itemize}
+
+
+\section{Analysis and Limitations}
+\begin{itemize}
+\item The blacklist approach is easy to implement and can quickly block some classes of attacks, but it is difficult to cover every variant (e.g., bypass patterns, case variations, encodings).
+\item A more robust strategy combines whitelisting (allowing only explicitly permitted input patterns) with argument-based execution that avoids the shell. In addition, the principle of least privilege, proper output encoding, and comprehensive logging and monitoring should be applied.
+\item In experimental settings, the outcome may vary depending on the execution privileges for system commands (e.g., \texttt{ping}) and the network policy in effect. In CI environments or restricted containers, ICMP may be blocked and the command may fail.
+\end{itemize}
+
+\newpage
+\appendix
+\section{Appendix: Full server code}
+\begin{lstlisting}[caption={Example server implementation using Go and the Fiber framework}, label={lst:go-server}, showspaces=false,showstringspaces=false]
+package main
+
+import (
+	"fmt"
+	"io"
+	"log"
+	"net/http"
+	"os/exec"
+	"regexp"
+	"testing"
+
+	"github.com/gofiber/fiber/v2"
+)
+
+// This file provides a tiny HTTP server using Fiber to experiment with
+// command-injection defenses. Routes:
+//  - GET /vuln?ip=<value> : vulnerable example that invokes the shell (unsafe)
+//  - GET /safe?ip=<value> : safe example that validates input and runs command
+
+func vulnHandler(c *fiber.Ctx) error {
+	ip := c.Query("ip")
+	if ip == "" {
+		return c.Status(400).SendString("missing ip parameter")
+	}
+	// Vulnerable: constructs a shell command using user input
+	cmdStr := "ping -c 1 " + ip
+	out, err := exec.Command("/bin/sh", "-c", cmdStr).CombinedOutput()
+	if err != nil {
+		return c.Status(500).SendString(fmt.Sprintf("command error: %v, output: %s", err, out))
+	}
+	return c.Status(200).Send(out)
+}
+
+var ipv4Regexp = regexp.MustCompile(`^([0-9]{1,3}\.){3}[0-9]{1,3}$`)
+
+func safeHandler(c *fiber.Ctx) error {
+	ip := c.Query("ip")
+	if ip == "" {
+		return c.Status(400).SendString("missing ip parameter")
+	}
+	// Input validation: simple IPv4 regex (note: not full validation of octet range)
+	if !ipv4Regexp.MatchString(ip) {
+		return c.Status(400).SendString("invalid ip format")
+	}
+	// Blacklist check: block obvious injection patterns
+	if contains := regexp.MustCompile(`(?i)\bwhoami\b|\|`).MatchString(ip); contains {
+		return c.Status(400).SendString("input blocked by blacklist: suspicious token detected")
+	}
+	// Safe: run ping without a shell by passing args directly
+	out, err := exec.Command("ping", "-c", "1", ip).CombinedOutput()
+	if err != nil {
+		return c.Status(500).SendString(fmt.Sprintf("command error: %v, output: %s", err, out))
+	}
+	return c.Status(200).Send(out)
+}
+
+func startServer() *fiber.App {
+	app := fiber.New()
+	app.Get("/vuln", vulnHandler)
+	app.Get("/safe", safeHandler)
+	go func() {
+		log.Printf("starting fiber server on :8080")
+		if err := app.Listen(":8080"); err != nil {
+			log.Fatalf("fiber server failed: %v", err)
+		}
+	}()
+	return app
+}
+
+func TestServerEndpoints(t *testing.T) {
+	_ = startServer()
+
+	// Simple smoke test on /safe (should return 200 or command error if ping not permitted)
+	resp, err := http.Get("http://localhost:8080/safe?ip=127.0.0.1")
+	if err != nil {
+		t.Fatalf("failed to GET /safe: %v", err)
+	}
+	defer resp.Body.Close()
+	body, _ := io.ReadAll(resp.Body)
+	t.Logf("/safe status=%d body=%s", resp.StatusCode, string(body))
+
+	// Test /vuln endpoint as well
+	resp2, err := http.Get("http://localhost:8080/vuln?ip=127.0.0.1")
+	if err != nil {
+		t.Fatalf("failed to GET /vuln: %v", err)
+	}
+	defer resp2.Body.Close()
+	b2, _ := io.ReadAll(resp2.Body)
+	t.Logf("/vuln status=%d body=%s", resp2.StatusCode, string(b2))
+}
+
+func main() {
+	app := startServer()
+	defer app.Shutdown()
+	select {}
+}
+
+\end{lstlisting}
+
+\end{document}

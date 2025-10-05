@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025/Homebrew) (preloaded format=pdflatex 2025.3.15)  28 SEP 2025 17:58
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025/Homebrew) (preloaded format=pdflatex 2025.3.15)  2 OCT 2025 12:13
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -386,7 +386,16 @@ LaTeX Warning: Label `lst:modified-request' multiply defined.
 LaTeX Warning: Label `lst:modified-request' multiply defined.
 
 
+LaTeX Warning: Label `lst:modified-request' multiply defined.
+
+
+LaTeX Warning: Label `lst:modified-request' multiply defined.
+
+
 LaTeX Warning: Label `lst:blind-original-request' multiply defined.
+
+
+LaTeX Warning: Label `lst:modified-request' multiply defined.
 
 
 LaTeX Warning: Label `lst:modified-request' multiply defined.
@@ -500,7 +509,7 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <5> on input line 64.
 LaTeX Font Info:    Font shape `OT1/cmbr/m/it' in size <10> not available
-(Font)              Font shape `OT1/cmbr/m/sl' tried instead on input line 66.
+(Font)              Font shape `OT1/cmbr/m/sl' tried instead on input line 65.
 LaTeX Font Info:    Font shape `OT1/cmbr/b/n' in size <14.4> not available
 (Font)              Font shape `OT1/cmbr/bx/n' tried instead on input line 69.
 LaTeX Font Info:    Font shape `OT1/cmbr/b/n' in size <12> not available
@@ -537,27 +546,17 @@ File: ts1cmtl.fd 2005/04/13 v8.1 (WaS)
 [3]
 
 Package caption Warning: The option `hypcap=true' will be ignored for this
-(caption)                particular \caption on input line 216.
+(caption)                particular \caption on input line 217.
 See the caption package documentation for explanation.
 
 
-Underfull \hbox (badness 4429) in paragraph at lines 223--223
+Underfull \hbox (badness 4429) in paragraph at lines 224--224
 []\OT1/cmbr/m/n/10 Command sep-a-ra-tor; ex-e-cutes com-
  []
 
 
-Underfull \hbox (badness 1122) in paragraph at lines 223--224
+Underfull \hbox (badness 1122) in paragraph at lines 224--225
 []\OT1/cmtl/m/n/10 echo a; echo b \OT1/cmbr/m/n/10 |
- []
-
-
-Underfull \hbox (badness 1205) in paragraph at lines 224--224
-[]\OT1/cmbr/m/n/10 When the pre-vi-ous com-mand's
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 224--225
-[]\OT1/cmtl/m/n/10 make && echo
  []
 
 
@@ -567,7 +566,7 @@ Underfull \hbox (badness 1205) in paragraph at lines 225--225
 
 
 Underfull \hbox (badness 10000) in paragraph at lines 225--226
-[]\OT1/cmtl/m/n/10 grep foo file ||
+[]\OT1/cmtl/m/n/10 make && echo
  []
 
 LaTeX Font Info:    Trying to load font information for OMS+cmbr on input line 226.
@@ -576,32 +575,41 @@ File: omscmbr.fd 2005/04/13 v8.1 (WaS)
 )
 LaTeX Font Info:    Font shape `OMS/cmbr/m/n' in size <10> not available
 (Font)              Font shape `OMS/cmbrs/m/n' tried instead on input line 226.
-LaTeX Font Info:    Trying to load font information for OMS+cmtl on input line 226.
-LaTeX Font Info:    No file OMScmtl.fd. on input line 226.
 
-
-LaTeX Font Warning: Font shape `OMS/cmtl/m/n' undefined
-(Font)              using `OMS/cmsy/m/n' instead
-(Font)              for symbol `textbar' on input line 226.
+Underfull \hbox (badness 1205) in paragraph at lines 226--226
+[]\OT1/cmbr/m/n/10 When the pre-vi-ous com-mand's
+ []
 
 
 Underfull \hbox (badness 10000) in paragraph at lines 226--227
+[]\OT1/cmtl/m/n/10 grep foo file ||
+ []
+
+LaTeX Font Info:    Trying to load font information for OMS+cmtl on input line 227.
+LaTeX Font Info:    No file OMScmtl.fd. on input line 227.
+
+LaTeX Font Warning: Font shape `OMS/cmtl/m/n' undefined
+(Font)              using `OMS/cmsy/m/n' instead
+(Font)              for symbol `textbar' on input line 227.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 227--228
 []\OT1/cmtl/m/n/10 ps aux \OMS/cmsy/m/n/10 j \OT1/cmtl/m/n/10 grep ssh
  []
 
 
-Underfull \hbox (badness 1308) in paragraph at lines 227--227
+Underfull \hbox (badness 1308) in paragraph at lines 228--228
 []\OT1/cmbr/m/n/10 Command runs in back-ground;
  []
 
 
-Overfull \hbox (13.85677pt too wide) in paragraph at lines 219--230
+Overfull \hbox (13.85677pt too wide) in paragraph at lines 220--231
  [] 
  []
 
 
 Package caption Warning: The option `hypcap=true' will be ignored for this
-(caption)                particular \caption on input line 234.
+(caption)                particular \caption on input line 235.
 See the caption package documentation for explanation.
 
 
@@ -610,7 +618,7 @@ See the caption package documentation for explanation.
 <../figure/figure1.png, id=87, 1684.2925pt x 1792.6975pt>
 File: ../figure/figure1.png Graphic file (type png)
 <use ../figure/figure1.png>
-Package pdftex.def Info: ../figure/figure1.png  used on input line 260.
+Package pdftex.def Info: ../figure/figure1.png  used on input line 261.
 (pdftex.def)             Requested size: 338.5863pt x 360.36589pt.
 
 
@@ -618,44 +626,53 @@ Package pdftex.def Info: ../figure/figure1.png  used on input line 260.
 <../figure/figure2.png, id=116, 945.5325pt x 190.7125pt>
 File: ../figure/figure2.png Graphic file (type png)
 <use ../figure/figure2.png>
-Package pdftex.def Info: ../figure/figure2.png  used on input line 289.
+Package pdftex.def Info: ../figure/figure2.png  used on input line 290.
 (pdftex.def)             Requested size: 338.5863pt x 68.29268pt.
+
+Overfull \hbox (12.56471pt too wide) in paragraph at lines 303--304
+[]\OT1/cmbr/m/n/10 Send a POST re-quest to the \OT1/cmtl/m/n/10 /product/stock \OT1/cmbr/m/n/10 end-point, in-ject-ing a pay-load of the form \OT1/cmtl/m/n/10 '1 && <command>'
+ []
+
 
 
 [6 </Users/potato/Desktop/KU/25-2/정보보호/assignment1_CMINE/report/Eng/../figure/figure2.png>]
-<../figure/figure3.png, id=126, 1252.68pt x 1365.1pt>
+<../figure/figure3.png, id=162, 1252.68pt x 1365.1pt>
 File: ../figure/figure3.png Graphic file (type png)
 <use ../figure/figure3.png>
-Package pdftex.def Info: ../figure/figure3.png  used on input line 328.
+Package pdftex.def Info: ../figure/figure3.png  used on input line 377.
 (pdftex.def)             Requested size: 338.5863pt x 368.97769pt.
-<../figure/figure4.png, id=127, 1646.15pt x 395.4775pt>
+<../figure/figure4.png, id=163, 1646.15pt x 395.4775pt>
 File: ../figure/figure4.png Graphic file (type png)
 <use ../figure/figure4.png>
-Package pdftex.def Info: ../figure/figure4.png  used on input line 354.
+Package pdftex.def Info: ../figure/figure4.png  used on input line 403.
 (pdftex.def)             Requested size: 338.5863pt x 81.33893pt.
 
 
 [7]
 
 [8 </Users/potato/Desktop/KU/25-2/정보보호/assignment1_CMINE/report/Eng/../figure/figure3.png> </Users/potato/Desktop/KU/25-2/정보보호/assignment1_CMINE/report/Eng/../figure/figure4.png>]
-<../figure/figure5.png, id=164, 1017.8025pt x 146.5475pt>
+
+[9]
+<../figure/figure5.png, id=250, 1017.8025pt x 146.5475pt>
 File: ../figure/figure5.png Graphic file (type png)
 <use ../figure/figure5.png>
-Package pdftex.def Info: ../figure/figure5.png  used on input line 398.
+Package pdftex.def Info: ../figure/figure5.png  used on input line 499.
 (pdftex.def)             Requested size: 338.5863pt x 48.7499pt.
 
 
-[9 </Users/potato/Desktop/KU/25-2/정보보호/assignment1_CMINE/report/Eng/../figure/figure5.png>]
+[10 </Users/potato/Desktop/KU/25-2/정보보호/assignment1_CMINE/report/Eng/../figure/figure5.png>]
 
-[10]
-<../figure/figure6.png, id=220, 1676.2625pt x 491.8375pt>
+[11]
+<../figure/figure6.png, id=306, 1676.2625pt x 491.8375pt>
 File: ../figure/figure6.png Graphic file (type png)
 <use ../figure/figure6.png>
-Package pdftex.def Info: ../figure/figure6.png  used on input line 459.
+Package pdftex.def Info: ../figure/figure6.png  used on input line 560.
 (pdftex.def)             Requested size: 338.5863pt x 99.34137pt.
 
 
-[11 </Users/potato/Desktop/KU/25-2/정보보호/assignment1_CMINE/report/Eng/../figure/figure6.png>] (/Users/potato/Desktop/KU/25-2/정보보호/assignment1_CMINE/report/Eng/[eng]command_injection.aux)
+[12 </Users/potato/Desktop/KU/25-2/정보보호/assignment1_CMINE/report/Eng/../figure/figure6.png>]
+
+[13] (/Users/potato/Desktop/KU/25-2/정보보호/assignment1_CMINE/report/Eng/[eng]command_injection.aux)
  ***********
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-01-18>
@@ -671,18 +688,18 @@ Package rerunfilecheck Info: File `[eng]command_injection.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 13764 strings out of 473190
- 226812 string characters out of 5704335
- 1155531 words of memory out of 5000000
- 36682 multiletter control sequences out of 15000+600000
+ 13938 strings out of 473190
+ 229289 string characters out of 5704335
+ 1338531 words of memory out of 5000000
+ 36721 multiletter control sequences out of 15000+600000
  565187 words of font info for 58 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  79i,11n,93p,479b,2080s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </opt/homebrew/Cellar/texlive/20250308_1/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></opt/homebrew/Cellar/texlive/20250308_1/share/texmf-dist/fonts/type1/public/hfbright/hfbr10.pfb></opt/homebrew/Cellar/texlive/20250308_1/share/texmf-dist/fonts/type1/public/hfbright/hfbr17.pfb></opt/homebrew/Cellar/texlive/20250308_1/share/texmf-dist/fonts/type1/public/hfbright/hfbrbx10.pfb></opt/homebrew/Cellar/texlive/20250308_1/share/texmf-dist/fonts/type1/public/hfbright/hfbrsl10.pfb></opt/homebrew/Cellar/texlive/20250308_1/share/texmf-dist/fonts/type1/public/hfbright/hfbrsy10.pfb></opt/homebrew/Cellar/texlive/20250308_1/share/texmf-dist/fonts/type1/public/hfbright/hfsltl10.pfb></opt/homebrew/Cellar/texlive/20250308_1/share/texmf-dist/fonts/type1/public/hfbright/hftl10.pfb></opt/homebrew/Cellar/texlive/20250308_1/share/texmf-dist/fonts/type1/public/cm-super/sfbmr10.pfb></opt/homebrew/Cellar/texlive/20250308_1/share/texmf-dist/fonts/type1/public/cm-super/sfbtl10.pfb>
-Output written on /Users/potato/Desktop/KU/25-2/정보보호/assignment1_CMINE/report/Eng/[eng]command_injection.pdf (11 pages, 568761 bytes).
+Output written on /Users/potato/Desktop/KU/25-2/정보보호/assignment1_CMINE/report/Eng/[eng]command_injection.pdf (13 pages, 580649 bytes).
 PDF statistics:
- 307 PDF objects out of 1000 (max. 8388607)
- 259 compressed objects within 3 object streams
- 162 named destinations out of 1000 (max. 500000)
+ 480 PDF objects out of 1000 (max. 8388607)
+ 428 compressed objects within 5 object streams
+ 297 named destinations out of 1000 (max. 500000)
  31 words of extra memory for PDF output out of 10000 (max. 10000000)
 
